@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,6 +25,8 @@ public class SnakeGame extends JPanel implements ActionListener {
 
 	public SnakeGame() {
 		t.start();
+		addKeyListener(new Keyboard());
+		setFocusable(true);
 	}
 
 	public void paint(Graphics g) {
@@ -59,8 +63,22 @@ public class SnakeGame extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		s.move();
-
 		repaint();
 	}
 
+	private class Keyboard extends KeyAdapter {
+		public void keyPressed(KeyEvent keyEvent) {
+
+			int key = keyEvent.getKeyCode();
+
+			if ((key == KeyEvent.VK_RIGHT) & s.direction != s.LEFT)
+				s.direction = s.RIGTH;
+			if ((key == KeyEvent.VK_LEFT) & s.direction != s.RIGTH)
+				s.direction = s.LEFT;
+			if ((key == KeyEvent.VK_DOWN) & s.direction != s.UP)
+				s.direction = s.DOWN;
+			if ((key == KeyEvent.VK_UP) & s.direction != s.DOWN)
+				s.direction = s.UP;
+		}
+	}
 }

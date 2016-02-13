@@ -2,8 +2,8 @@ package my.snakegame.objects;
 
 public class Snake {
 
-	public int direction = 2;
-	public int length = 2;
+	public int direction = 3;
+	public int length = 10;
 
 	public final int RIGTH = 0;
 	public final int DOWN = 1;
@@ -34,6 +34,14 @@ public class Snake {
 			snakeX[0]--;
 		if (direction == UP)
 			snakeY[0]--;
+
+		for (int d = length - 1; d > 0; d--) {
+			if ((snakeX[0] == snakeX[d]) & (snakeY[0] == snakeY[d]))
+				length = d;
+		}
+		if (length < 2)
+			length = 2;
+
 	}
 
 }
