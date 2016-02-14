@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import my.snakegame.objects.Apple;
 import my.snakegame.objects.Snake;
 
 public class SnakeGame extends JPanel implements ActionListener {
@@ -20,6 +21,7 @@ public class SnakeGame extends JPanel implements ActionListener {
 	public static final int HEIGHT = 20;
 	public static final int SPEED = 5;
 
+	Apple apple = new Apple((int) (Math.random() * WIDTH), (int) (Math.random() * HEIGHT));
 	Snake s = new Snake(10, 10, 9, 10);
 	Timer t = new Timer(1000 / SPEED, this);
 
@@ -44,6 +46,9 @@ public class SnakeGame extends JPanel implements ActionListener {
 			g.setColor(color(20, 30, 150));
 			g.fillRect(s.snakeX[d] * SCALE + 1, s.snakeY[d] * SCALE + 1, SCALE - 1, SCALE - 1);
 		}
+
+		g.setColor(color(255, 0, 0));
+		g.fillRect(apple.posX * SCALE + 1, apple.posY * SCALE + 1, SCALE - 1, SCALE - 1);
 	}
 
 	public Color color(int red, int green, int blue) {
@@ -54,7 +59,7 @@ public class SnakeGame extends JPanel implements ActionListener {
 		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setResizable(false);
-		f.setSize(WIDTH * SCALE + 7, HEIGHT * SCALE + 30);
+		f.setSize(WIDTH * SCALE + 7, HEIGHT * SCALE + 29);
 		f.setLocationRelativeTo(null);
 		f.add(new SnakeGame());
 		f.setVisible(true);
@@ -63,6 +68,16 @@ public class SnakeGame extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		s.move();
+		for (int i = 1; i < s.length; i++) {
+			if ((s.snakeX[i] == apple.posX) && (s.snakeY[i] == apple.posY)) {
+				apple.setRandomPosition();
+			}
+		}
+
+		if ((s.snakeX[0] == apple.posX) && (s.snakeY[0] == apple.posY)) {
+			apple.setRandomPosition();
+			s.length++;
+		}
 		repaint();
 	}
 
